@@ -16,11 +16,11 @@ Interact with the deployed contract by calling the available functions and provi
 
 ### Executing program
 
-*Open Remix at remix.ethereum.org.
-*Create a new file and paste the contract code.
-*Compile the contract using the Solidity compiler.
-*Deploy the contract using the "Deploy & Run Transactions" panel.
-*Interact with the contract using the deployed contract's interface in Remix.
+* Open Remix at remix.ethereum.org.
+* Create a new file and paste the contract code.
+* Compile the contract using the Solidity compiler.
+* Deploy the contract using the "Deploy & Run Transactions" panel.
+* Interact with the contract using the deployed contract's interface in Remix.
 
 
 
