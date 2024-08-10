@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.26;
-
 contract MyToken {
 
     // Public variables
     string public name = "ERC20";
+    string public symbol = "ERC";
     uint public totalSupply = 0;
 
     // Mapping to store balances
     mapping (address => uint) public balances;
+   
 
     // Events
     event Transfer(address indexed from, address indexed to, uint value);
@@ -34,17 +35,6 @@ contract MyToken {
         balances[msg.sender] -= _value;
         balances[_to] += _value;
         emit Transfer(msg.sender, _to, _value);
-        return true;
-    }
-
-
-
-    // TransferFrom function
-    function transferFrom(address _from, address _to, uint _value) public returns (bool success) {
-        require(balances[_from] >= _value, "Balance too low for transfer");
-        balances[_from] -= _value;
-        balances[_to] += _value;
-        emit Transfer(_from, _to, _value);
         return true;
     }
 }
