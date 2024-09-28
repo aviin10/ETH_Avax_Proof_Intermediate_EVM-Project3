@@ -1,40 +1,30 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.26;
-contract MyToken {
+pragma solidity ^0.8.26;
 
-    // Public variables
-    string public name = "ERC20";
-    string public symbol = "ERC";
-    uint public totalSupply = 0;
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol"; 
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-    // Mapping to store balances
-    mapping (address => uint) public balances;
-   
-
-    // Events
-    event Transfer(address indexed from, address indexed to, uint value);
-
-    // Mint function
-    function mint(address _to, uint _value) public {
-        totalSupply += _value;
-        balances[_to] += _value;
-        emit Transfer(address(0), _to, _value);
+contract AvinToken is ERC20, Ownable {
+    // Constructor to set token name, symbol, and owner
+    constructor(string memory name, string memory symbol) 
+        ERC20(name, symbol) 
+        Ownable(msg.sender)  // Pass msg.sender automatically as the owner
+    {
+        // The owner is set to the deployer automatically by Ownable
     }
 
-    // Burn function
-    function burn(address _from, uint _value) public {
-        require(balances[_from] >= _value, "Balance too low to burn");
-        totalSupply -= _value;
-        balances[_from] -= _value;
-        emit Transfer(_from, address(0), _value);
+    // Function to mint new tokens, only callable by the owner
+    function mintTokens(address recipient, uint256 amount) external onlyOwner {
+        _mint(recipient, amount);
     }
 
-    // Transfer function
-    function transfer(address _to, uint _value) public returns (bool success) {
-        require(balances[msg.sender] >= _value, "Balance too low for transfer");
-        balances[msg.sender] -= _value;
-        balances[_to] += _value;
-        emit Transfer(msg.sender, _to, _value);
-        return true;
+    // Function to burn tokens from the caller's account
+    function burnTokens(uint256 amount) external {
+        _burn(msg.sender, amount);
+    }
+
+    // Override transfer function to include frozen account check
+    function transfer(address recipient, uint256 amount) public override returns (bool) {
+        return super.transfer(recipient, amount);
     }
 }
